@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "336795748939",
+    "project_id": "proteinas-update",
+    "storage_bucket": "proteinas-update.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336795748939:android:edd35f3d388c74c0831bce",
+        "android_client_info": {
+          "package_name": "com.evem.admin_proteinas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336795748939-8shpku511nt0jdpu553nb1oqvi1bqopa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN3aLILF7NS8bTIJPWeYKL8tGN99N1Yvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336795748939-8shpku511nt0jdpu553nb1oqvi1bqopa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,5 @@
+package com.evem.admin_proteinas
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity()
