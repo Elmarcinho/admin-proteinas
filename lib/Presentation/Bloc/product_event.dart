@@ -55,3 +55,8 @@ class ImageEvent extends ProductEvent{
    final String path;
   const ImageEvent(this.path);
 }
+
+class OnUltimoQuery extends ProductEvent{
+  final String ultimoQuery;
+  const OnUltimoQuery(this.ultimoQuery);
+}

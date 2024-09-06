@@ -28,6 +28,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<Description2Event>( _onDescription2Changed);
     on<EnabledProductEvent>( _onEnableProductChanged);
     on<ImageEvent>( _onImageChanged);
+    on<OnUltimoQuery>( _onUltimoQuery);
   }
 
   void _onGetProductos( GetProductosEvent event, Emitter emit) async{
@@ -180,6 +181,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     emit(
       state.copyWith(
         isEnabled: event.isEnable
+      )
+    );
+  }
+
+  void _onUltimoQuery( OnUltimoQuery event, Emitter emit) async{
+    
+    emit( 
+      state.copyWith(
+        ultimoQuery: event.ultimoQuery
       )
     );
   }
