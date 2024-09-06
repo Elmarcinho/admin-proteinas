@@ -24,8 +24,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<OnSubmitReset>( _onReset);
     on<TitleEvent>( _onTitleChanged);
     on<PriceEvent>( _onPriceChanged);
-    on<Description1Event>( _onDescription1Changed);
-    on<Description2Event>( _onDescription2Changed);
+    on<DescriptionEvent>( _onDescription1Changed);
     on<EnabledProductEvent>( _onEnableProductChanged);
     on<ImageEvent>( _onImageChanged);
     on<OnUltimoQuery>( _onUltimoQuery);
@@ -72,14 +71,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       state.copyWith(
         id: event.product.id,
         title: Title.dirty(event.product.title),
-        description1: Description.dirty(event.product.description1),
-        description2: Description.dirty(event.product.description2),
+        description: event.product.description,
         price: Price.dirty(event.product.price),
         image: event.product.image,
         isEnabled: event.product.state,
         backupTitleProduct: event.product.title,
-        isFormValid: Formz.validate([Title.dirty(event.product.title), Description.dirty(event.product.description1),
-                      Description.dirty(event.product.description2), Price.dirty(event.product.price)])
+        isFormValid: Formz.validate([Title.dirty(event.product.title), Price.dirty(event.product.price)])
       )
     );
   }
@@ -87,18 +84,16 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   void _onSubmit( OnSubmitEvent event, Emitter emit){
 
     final title = Title.dirty(state.title.value);
-    final description1 = Description.dirty(state.description1.value);
-    final description2 = Description.dirty(state.description2.value);
+    final description = state.description;
     final price =  Price.dirty(state.price.value);
 
     emit(
       state.copyWith(
         formStatus: true,
         title: title,
-        description1: description1,
-        description2: description2,
+        description: description,
         price: price,
-        isFormValid: Formz.validate([title, description1, description2, price])
+        isFormValid: Formz.validate([title, price])
       )
     );
   }
@@ -111,8 +106,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         id: '',
         title: const Title.dirty(''),
         price: const Price.dirty(0),
-        description1: const Description.dirty(''),
-        description2: const Description.dirty(''),
+        description: '',
         image: '',
         isEnabled: false,
       )
@@ -143,26 +137,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     );
   }
 
-   void _onDescription1Changed( Description1Event event, Emitter emit){
-
-    final description1 = Description.dirty(event.description);
+   void _onDescription1Changed( DescriptionEvent event, Emitter emit){
 
     emit(
       state.copyWith(
-        description1: description1,
-        isFormValid: Formz.validate([state.title, description1, state.description2, state.price])
-      )
-    );
-  }
-
-  void _onDescription2Changed( Description2Event event, Emitter emit){
-
-    final description2= Description.dirty(event.description);
-
-    emit(
-      state.copyWith(
-        description2: description2,
-        isFormValid: Formz.validate([state.title, state.description1, description2, state.price])
+        description: event.description,
       )
     );
   }

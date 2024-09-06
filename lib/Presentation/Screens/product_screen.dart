@@ -120,7 +120,6 @@ class _ProductoInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final productBloc = context.watch<ProductBloc>();
 
     return BlocBuilder<ProductBloc, ProductState>(
       builder: (context, state) {
@@ -137,24 +136,13 @@ class _ProductoInformation extends StatelessWidget {
               errorMessage: state.formStatus ? state.title.errorMessage : null,
             ),
            CustomProductField(
-              label: 'Descripción 1',
-              initialValue: state.description1.value,
+              label: 'Descripción',
+              initialValue: state.description,
               onChanged: (value) {
                 context
                     .read<ProductBloc>()
-                    .add(Description1Event(value.toLowerCase()));
+                    .add(DescriptionEvent(value.toLowerCase()));
               },
-              errorMessage: state.formStatus ? state.description1.errorMessage : null,
-            ),
-            CustomProductField(
-              label: 'Descripción 2',
-              initialValue: state.description2.value,
-              onChanged: (value) {
-                context
-                    .read<ProductBloc>()
-                    .add(Description2Event(value.toLowerCase()));
-              },
-              errorMessage: state.formStatus ? state.description2.errorMessage : null,
             ),
             Container(
                 height: 10,
@@ -237,40 +225,81 @@ class _ProductoInformation extends StatelessWidget {
 }
 
 void _onSubmit( BuildContext context, ProductState state,
-        ProductProvider productProvider, Uuid uuid, ProductoModel productModel) async {
+        ProductProvider productProvider, Uuid uuid, ProductoModel productModel) async{
 
-  if( state.title.value.length < 17 && state.description1.value.length < 17 && state.description2.value.length < 17){
+  if (state.title.isValid && state.price.isValid){
 
-    if (state.title.isValid && state.description1.isValid && state.description2.isValid && state.price.isValid){
+    progresIndicator(context);
 
-      progresIndicator(context);
+    final url = state.image.isNotEmpty && !state.image.startsWith('http')
+        ? await productProvider.subirImagen(state.image)
+        : state.image;
 
-      final url = state.image.isNotEmpty && !state.image.startsWith('http')
-          ? await productProvider.subirImagen(state.image)
-          : state.image;
+    if (url.startsWith('http') || url == '') {
+      productModel.title = state.title.value;
+      productModel.description = state.description;
+      productModel.price = state.price.value;
+      productModel.image = url;
+      productModel.state = state.isEnabled;
 
-      if (url.startsWith('http') || url == '') {
-        productModel.title = state.title.value;
-        productModel.description1 = state.description1.value;
-        productModel.description2 = state.description2.value;
-        productModel.price = state.price.value;
-        productModel.image = url;
-        productModel.state = state.isEnabled;
+      if (state.id.isEmpty) {
 
-        if (state.id.isEmpty) {
+        await productProvider.searchProductForTitle(state.title.value).then((product) async{
+
+          if( product.isEmpty){
+
+            productModel.id = uuid.v1();
+
+            await productProvider.insertarProducto(productModel).then((response) {
+              if (response == 'ok') {
+                if(context.mounted) context.read<ProductBloc>().add(CreateUpdateProductoEvent(productModel, true));
+                if(context.mounted) context.read<ProductBloc>().add(const GetProductosEvent());
+                NotificationService.showSnackbar(
+                    'Producto registrado con existoso!');
+                if(context.mounted) Navigator.of(context).pop();
+                if(context.mounted) Navigator.of(context).pop();
+              } else {
+                NotificationService.showSnackbarError(response);
+                if(context.mounted) Navigator.of(context).pop();
+              }
+            });
+          }else{
+            NotificationService.showSnackbarError('El producto ya existe');
+            if(context.mounted) Navigator.of(context).pop();
+          }
+        });
+
+      }else{
+
+        if( state.title.value == state.backupTitleProduct){
+          
+          productModel.id = state.id;
+          await productProvider.actualizarProducto(productModel).then((response) {
+            if (response == 'ok') {
+              if(context.mounted) context.read<ProductBloc>().add(CreateUpdateProductoEvent(productModel, false));
+              if(context.mounted) context.read<ProductBloc>().add(const GetProductosEvent());
+              NotificationService.showSnackbar(
+                  'Producto actualizado con existoso!');
+              if(context.mounted) Navigator.of(context).pop();
+              if(context.mounted) Navigator.of(context).pop();
+            } else {
+              NotificationService.showSnackbarError(response);
+              if(context.mounted) Navigator.of(context).pop();
+            }
+          });
+        }else{
 
           await productProvider.searchProductForTitle(state.title.value).then((product) async{
-
+            
             if( product.isEmpty){
 
-              productModel.id = uuid.v1();
-
-              await productProvider.insertarProducto(productModel).then((response) {
+              productModel.id = state.id;
+              await productProvider.actualizarProducto(productModel).then((response) {
                 if (response == 'ok') {
-                  if(context.mounted) context.read<ProductBloc>().add(CreateUpdateProductoEvent(productModel, true));
+                  if(context.mounted) context.read<ProductBloc>().add(CreateUpdateProductoEvent(productModel, false));
                   if(context.mounted) context.read<ProductBloc>().add(const GetProductosEvent());
                   NotificationService.showSnackbar(
-                      'Producto registrado con existoso!');
+                      'Producto actualizado con existoso!');
                   if(context.mounted) Navigator.of(context).pop();
                   if(context.mounted) Navigator.of(context).pop();
                 } else {
@@ -283,62 +312,14 @@ void _onSubmit( BuildContext context, ProductState state,
               if(context.mounted) Navigator.of(context).pop();
             }
           });
-
-        }else{
-
-          if( state.title.value == state.backupTitleProduct){
-            
-            productModel.id = state.id;
-            await productProvider.actualizarProducto(productModel).then((response) {
-              if (response == 'ok') {
-                if(context.mounted) context.read<ProductBloc>().add(CreateUpdateProductoEvent(productModel, false));
-                if(context.mounted) context.read<ProductBloc>().add(const GetProductosEvent());
-                NotificationService.showSnackbar(
-                    'Producto actualizado con existoso!');
-                if(context.mounted) Navigator.of(context).pop();
-                if(context.mounted) Navigator.of(context).pop();
-              } else {
-                NotificationService.showSnackbarError(response);
-                if(context.mounted) Navigator.of(context).pop();
-              }
-            });
-          }else{
-
-            await productProvider.searchProductForTitle(state.title.value).then((product) async{
-              
-              if( product.isEmpty){
-
-                productModel.id = state.id;
-                await productProvider.actualizarProducto(productModel).then((response) {
-                  if (response == 'ok') {
-                    if(context.mounted) context.read<ProductBloc>().add(CreateUpdateProductoEvent(productModel, false));
-                    if(context.mounted) context.read<ProductBloc>().add(const GetProductosEvent());
-                    NotificationService.showSnackbar(
-                        'Producto actualizado con existoso!');
-                    if(context.mounted) Navigator.of(context).pop();
-                    if(context.mounted) Navigator.of(context).pop();
-                  } else {
-                    NotificationService.showSnackbarError(response);
-                    if(context.mounted) Navigator.of(context).pop();
-                  }
-                });
-              }else{
-                NotificationService.showSnackbarError('El producto ya existe');
-                if(context.mounted) Navigator.of(context).pop();
-              }
-            });
-          }
         }
-      }else {
-        NotificationService.showSnackbarError(url);
-        if (context.mounted) Navigator.of(context).pop();
       }
-    }else{
-      NotificationService.showSnackbarError('Ingrese los campos obligatorios');
+    }else {
+      NotificationService.showSnackbarError(url);
+      if (context.mounted) Navigator.of(context).pop();
     }
-
   }else{
-    NotificationService.showSnackbarError('Revisa el máximo de caracteres');
+    NotificationService.showSnackbarError('Ingrese los campos obligatorios');
   }
-  
+
 }

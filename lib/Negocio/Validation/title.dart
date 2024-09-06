@@ -1,7 +1,7 @@
 import 'package:formz/formz.dart';
 
 // Define input validation errors
-enum TitleError { empty, length}
+enum TitleError { empty }
 
 // Extend FormzInput and provide the input type and error type.
 class Title extends FormzInput<String, TitleError> {
@@ -17,7 +17,6 @@ class Title extends FormzInput<String, TitleError> {
   String? get errorMessage {
     if ( isValid || isPure ) return null;
     if ( displayError == TitleError.empty ) return 'El campo es requerido';
-    if ( displayError == TitleError.length) return 'Máximo 16 caracteres';
 
     return null;
   }
@@ -27,7 +26,6 @@ class Title extends FormzInput<String, TitleError> {
   TitleError? validator(String value) {
     
     if ( value.isEmpty || value.trim().isEmpty ) return TitleError.empty;
-    if ( value.length > 16 ) return TitleError.length;
 
     return null;
   }

@@ -36,14 +36,9 @@ class PriceEvent extends ProductEvent {
   const PriceEvent(this.price);
 }
 
-class Description1Event extends ProductEvent{
+class DescriptionEvent extends ProductEvent{
    final String description;
-  const Description1Event(this.description);
-}
-
-class Description2Event extends ProductEvent{
-   final String description;
-  const Description2Event(this.description);
+  const DescriptionEvent(this.description);
 }
 
 class EnabledProductEvent extends ProductEvent {

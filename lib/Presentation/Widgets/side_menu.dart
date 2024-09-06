@@ -23,21 +23,15 @@ class SideMenu extends StatelessWidget {
             shrinkWrap: true,
             padding: EdgeInsets.zero, 
             children:<Widget>[
-              UserAccountsDrawerHeader(
-                decoration: const BoxDecoration(  
+              const UserAccountsDrawerHeader(
+                decoration: BoxDecoration(  
                   image: DecorationImage(
                     image: AssetImage('assets/proteinas_logo.png'),
-                    fit: BoxFit.cover
+                    fit: BoxFit.fill
                   )
                 ),
-                accountName: Text(prefs.nombreUsuario.toUpperCase(), style: const TextStyle(color: Colors.brown)),
-                accountEmail: Text(prefs.rol, style: const TextStyle(color: Colors.brown)),
-                currentAccountPicture: CircleAvatar(  
-                  backgroundColor: Colors.white,  
-                  child: Text(prefs.nombreUsuario[0].toUpperCase(),
-                    style: TextStyle(fontSize:45.0, color: Theme.of(context).primaryColor)
-                  ),
-                ),
+                accountName: Text(''),
+                accountEmail: Text(''),
               ),
             
               SizedBox( height: size.height * 0.60),

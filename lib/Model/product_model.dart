@@ -9,8 +9,7 @@ class ProductoModel {
     
   String id;
   String title;
-  String description1;
-  String description2;
+  String description;
   double price;
   String image;
   bool state;
@@ -18,8 +17,7 @@ class ProductoModel {
   ProductoModel({
       this.id ='',
       this.title='',
-      this.description1 ='',
-      this.description2 ='',
+      this.description ='',
       this.price= 0.0,
       this.image='',
       this.state=false,
@@ -29,8 +27,7 @@ class ProductoModel {
   factory ProductoModel.fromJson(Map<String, dynamic> json) => ProductoModel(
       id          : json["id"],
       title       : json["title"],
-      description1 : json["description1"],
-      description2 : json["description2"],
+      description : json["description"],
       price       : json["price"].toDouble(),
       image       : json["image"],
       state       : json["state"],
@@ -39,8 +36,7 @@ class ProductoModel {
   Map<String, dynamic> toJson() => {
       "id"           : id,
       "title"        : title,
-      "description1"  : description1,
-      "description2"  : description2,
+      "description"  : description,
       "price"        : price,
       "image"        : image,
       "state"        : state,

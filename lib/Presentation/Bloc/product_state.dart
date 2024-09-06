@@ -7,8 +7,7 @@ class ProductState extends Equatable {
   final String id;
   final Title title;
   final Price price;
-  final Description description1;
-  final Description description2;
+  final String description;
   final String image;
   final bool isEnabled;
   final List<ProductoModel> listProduct;
@@ -24,8 +23,7 @@ class ProductState extends Equatable {
     this.id='',
     this.title = const Title.dirty(''),
     this.price = const Price.dirty(0),
-    this.description1 = const Description.dirty(''),
-    this.description2 = const Description.dirty(''),
+    this.description = '',
     this.image = '',
     this.isEnabled = false,
     this.listProduct= const [],
@@ -41,8 +39,7 @@ class ProductState extends Equatable {
     String? id,
     Title? title,
     Price? price,
-    Description? description1,
-    Description? description2,
+    String? description,
     String? image,
     bool? isEnabled,
     List<ProductoModel>? listProduct,
@@ -57,8 +54,7 @@ class ProductState extends Equatable {
     id: id ?? this.id,
     title: title ?? this.title,
     price: price ?? this.price,
-    description1: description1 ?? this.description1,
-    description2: description2 ?? this.description2,
+    description: description ?? this.description,
     image: image ?? this.image,
     isEnabled: isEnabled ?? this.isEnabled,
     listProduct: listProduct ?? this.listProduct,
@@ -70,8 +66,8 @@ class ProductState extends Equatable {
   );
   
   @override
-  List<Object> get props => [ formStatus, isFormValid, id, title, price, description1, description2, 
-                        image, isEnabled, listProduct, backupListProduct, isCreate, ultimoQuery, backupTitleProduct ];
+  List<Object> get props => [ formStatus, isFormValid, id, title, price, description, image, 
+                      isEnabled, listProduct, backupListProduct, isCreate, ultimoQuery, backupTitleProduct ];
 }
 
 

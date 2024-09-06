@@ -176,8 +176,7 @@ class _ProductItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(product.title, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(product.description1),
-                  Text(product.description2),
+                  Text(product.description),
                   Text(product.state?'ACTIVO':'INACTIVO',
                     style: TextStyle(fontSize:15 ,fontWeight: FontWeight.bold , color: product.state?Colors.green:Colors.red))
                 ],

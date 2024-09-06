@@ -15,7 +15,7 @@ class ProductProvider{
   Future<List<ProductoModel>> getProductos() async{
 
     return await _firestore.collection('product')
-      .orderBy('titleCategory',descending: false)
+      .orderBy('title', descending: false)
       .get()
       .then((value) => value.docs
       .map((e) => ProductoModel

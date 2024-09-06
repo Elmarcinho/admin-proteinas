@@ -22,8 +22,9 @@ class ProductListScreen extends StatelessWidget {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 0.66,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5),
+                  crossAxisSpacing: 1,
+                  mainAxisSpacing: 1
+              ),
               itemCount: state.listProduct.length,
               itemBuilder: (contex, i) => _crearItem(context, state.listProduct[i]),
             ),
@@ -85,19 +86,14 @@ class ProductListScreen extends StatelessWidget {
                 child: Text(
                     '${producto.title[0].toUpperCase()}${producto.title.substring(1)}',
                     style: const TextStyle(fontSize: 15))),
-              SizedBox(
-                width: double.infinity, 
-                child: Text(producto.description1.isNotEmpty
-                        ?'${producto.description1[0].toUpperCase()}${producto.description1.substring(1)}'
-                        :''
-                )
-              ),
-              SizedBox(
-                width: double.infinity, 
-                child: Text(producto.description2.isNotEmpty
-                        ?'${producto.description2[0].toUpperCase()}${producto.description2.substring(1)}'
-                        :''
-                )
+              Expanded(
+                child: SizedBox(
+                  width: double.infinity, 
+                  child: Text(producto.description.isNotEmpty
+                          ?'${producto.description[0].toUpperCase()}${producto.description.substring(1)}'
+                          :''
+                  )
+                ),
               ),
               SizedBox(
                 width: double.infinity,
