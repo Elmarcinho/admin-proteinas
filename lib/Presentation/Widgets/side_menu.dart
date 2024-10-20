@@ -26,15 +26,24 @@ class SideMenu extends StatelessWidget {
               const UserAccountsDrawerHeader(
                 decoration: BoxDecoration(  
                   image: DecorationImage(
-                    image: AssetImage('assets/proteinas_logo.png'),
-                    fit: BoxFit.fill
+                    image: AssetImage('assets/proteinas2.jpg'),
+                    fit: BoxFit.fitWidth
                   )
                 ),
                 accountName: Text(''),
                 accountEmail: Text(''),
               ),
+
+              ListTile(
+                leading: const Icon(Icons.qr_code_2_outlined),
+                title: const Text('Código Qr'),
+                onTap: (){
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, 'qr');
+                },
+              ),
             
-              SizedBox( height: size.height * 0.60),
+              SizedBox( height: size.height * 0.55),
 
               ListTile(
                 leading: const Icon(Icons.power_settings_new, color:Colors.brown),

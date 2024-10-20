@@ -1,3 +1,5 @@
+import 'package:admin_proteinas/Presentation/Bloc/company_bloc.dart';
+import 'package:admin_proteinas/Provider/company.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +29,7 @@ class MainApp extends StatelessWidget {
 
   final prefs = UserPreferencia();
   final productProvider = ProductProvider();
+  final companyProvider = CompanyProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +38,7 @@ class MainApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => LoginBloc()),
         BlocProvider(create: (context) => ProductBloc(productProvider)..add(const GetProductosEvent())),
+        BlocProvider(create: (context) => CompanyBloc(companyProvider)..add(const GetCompanyEvent()))
       ], 
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -46,6 +50,7 @@ class MainApp extends StatelessWidget {
           'home'           : ( BuildContext context) => const HomeScreen(),
           'productlist'    : ( BuildContext context ) => const ProductListScreen(),
           'product'        : ( BuildContext context ) => const ProductScreen(),
+          'qr'             : ( BuildContext context ) => const QrScreen()
         },
       )
     );
